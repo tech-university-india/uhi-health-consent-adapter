@@ -1,6 +1,5 @@
 const requiredHeaders = require('../config/requiredHeaders')
 const getToken = require('./gateway')
-const specialRoutes = require('../config/specialRoutes')
 const { checkForErrorsInResponse, convertToResponseBody } = require('../utils/response')
 
 const healthId = async (path, method, headers, body) => {
@@ -20,13 +19,8 @@ const healthId = async (path, method, headers, body) => {
     },
     body: method === 'GET' ? undefined : JSON.stringify(body)
   })
+
   await checkForErrorsInResponse(response)
-  if (specialRoutes[path]) {
-    return {
-      data: await specialRoutes[path](response),
-      status: response.status
-    }
-  }
   const data = await convertToResponseBody(response)
   return {
     data,

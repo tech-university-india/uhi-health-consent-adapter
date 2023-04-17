@@ -7,7 +7,7 @@ const {
   shareProfileSchema,
   addContextsSchema,
   notifySchema,
-  pushNotifySchema,
+  pushNotifySchema
 } = require('../schemas/healthInfo')
 
 const pathMap = {
@@ -24,7 +24,7 @@ const pathMap = {
   '/gateway/v0.5/links/link/add-contexts': addContextsSchema,
   '/gateway/v0.5/patients/sms/notify2': notifySchema,
 
-  '/gateway/v0.5/health-information/notify': pushNotifySchema,
+  '/gateway/v0.5/health-information/notify': pushNotifySchema
 }
 
 module.exports = pathMap

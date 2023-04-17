@@ -11,6 +11,7 @@ const {
 } = require('../schemas/healthInfo')
 
 const pathMap = {
+  // move the 3 routes to facility onboarding service once created
   '/devservice/v1/bridges': hostUrlSchema,
   '/devservice/v1/bridges/addUpdateServices': registerFacilitiesSchema,
   '/devservice/v1/bridges/getServices': true,

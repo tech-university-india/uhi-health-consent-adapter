@@ -1,6 +1,7 @@
 const pathMap = require('../config/pathMap')
 
 const requestValidator = (req, res, next) => {
+  console.log('requestValidator')
   const schema = pathMap[req.url]
   if (!schema) {
     res.status(404).json({ message: 'Not Found' })
@@ -13,6 +14,8 @@ const requestValidator = (req, res, next) => {
       return
     }
   }
+
+  console.log('next')
   next()
 }
 

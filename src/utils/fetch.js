@@ -24,4 +24,4 @@ const cacheFetch = async (requestOptions, isToken) => {
   return data.accessToken ? data : { accessToken: data }
 }
 
-module.exports = cacheFetch
+module.exports = { cacheFetch }

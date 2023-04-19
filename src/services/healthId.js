@@ -27,4 +27,4 @@ const healthId = async (path, method, headers, body) => {
     status: response.status
   }
 }
-module.exports = healthId
+module.exports = { healthId }

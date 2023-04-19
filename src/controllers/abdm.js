@@ -3,7 +3,7 @@ const RequestError = require('../utils/requestError')
 const abdm = async (req, res) => {
   try {
     const { baseUrl: path, method, headers, body } = req
-    const response = await healthId(path, method, headers, body)
+    const response = await healthId.healthId(path, method, headers, body)
     res.status(response.status).json(response.data)
   } catch (error) {
     if (error instanceof RequestError) {

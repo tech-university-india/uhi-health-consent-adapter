@@ -48,15 +48,11 @@ describe('convertToResponseBody', () => {
   test('should return parsed JSON when response contains valid JSON data', async () => {
     const response = {
       status: 400,
-      message: 'Bad request'
+      message: 'Bad request',
+      text: async () => ({ details: [{ message: 'Bad request' }] })
     }
     const result = await Response.convertToResponseBody(response)
-    expect(result).toStrictEqual({
-      details: [{
-        message: 'Bad request'
-      }
-      ]
-    })
+    expect(result).toEqual({ details: [{ message: 'Bad request' }] })
   })
 
   test('should return plain text when response does not contain valid JSON data', async () => {

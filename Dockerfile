@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:19-alpine
 
 WORKDIR /app
 
@@ -8,7 +8,6 @@ COPY package-lock.json package-lock.json
 RUN npm install
 
 COPY . .
-RUN chmod +x docker-entrypoint.sh
 
 EXPOSE 9007
 ENTRYPOINT [ "npm", "run", "start" ]

@@ -9,7 +9,7 @@ app.use(express.json())
 app.use(express.text())
 app.use(requestValidator)
 
-const PORT = process.env.PORT || 9007
+const PORT = process.env.PORT || 9006
 
 app.use('*', abdm)
 

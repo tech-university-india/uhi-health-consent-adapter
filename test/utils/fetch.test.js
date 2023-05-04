@@ -1,10 +1,9 @@
 const Fetch = require('../../src/utils/fetch')
-const Redis = require('../../src/utils/redis')
-const jwt = require('jsonwebtoken')
+const Redis = require('../../src/utils/cache')
 const fetch = require('node-fetch')
 const Response = require('../../src/utils/response')
 
-jest.mock('../../src/utils/redis', () => ({
+jest.mock('../../src/utils/cache', () => ({
   getCache: jest.fn(),
   setCache: jest.fn()
 }))
@@ -55,9 +54,11 @@ describe('fetch', () => {
     expect(Redis.getCache).toHaveBeenCalledTimes(1)
     expect(Redis.getCache).toHaveBeenCalled()
     expect(Response.checkForErrorsInResponse).toHaveBeenCalledTimes(1)
-    expect(Response.checkForErrorsInResponse).toHaveBeenCalledWith(expect.objectContaining({
-      ok: true,
-      json: expect.any(Function)
-    }))
+    expect(Response.checkForErrorsInResponse).toHaveBeenCalledWith(
+      expect.objectContaining({
+        ok: true,
+        json: expect.any(Function)
+      })
+    )
   })
 })

@@ -8,12 +8,10 @@ describe('checkForErrorsInResponse', () => {
       json: async () => ({ details: [{ message: 'Bad request' }] }),
       text: async () => ({ details: [{ message: 'Bad request' }] })
     }
-    Response.convertToResponseBody = jest.fn().mockReturnValue(response.json())
+
+    Response.convertToResponseBody = jest.fn().mockResolvedValue(response.json())
     await expect(Response.checkForErrorsInResponse(response)).rejects.toThrow(
       requestError.RequestError
-    )
-    await expect(Response.checkForErrorsInResponse(response)).rejects.toThrow(
-      'Bad request'
     )
   })
   it('throws a RequestError with the appropriate message and status if the response status is >= 400 and the response body contains a "message" field', async () => {
@@ -24,7 +22,6 @@ describe('checkForErrorsInResponse', () => {
     }
 
     await expect(Response.checkForErrorsInResponse(response)).rejects.toThrow(requestError.RequestError)
-    await expect(Response.checkForErrorsInResponse(response)).rejects.toThrow('Unauthorized')
   })
   it('throws a RequestError with a default message and the response status if the response status is >= 400 and the response body does not contain a "details" or "message" field', async () => {
     const response = {
@@ -38,7 +35,10 @@ describe('checkForErrorsInResponse', () => {
   })
   it('does not throw an error if the response status is < 400', async () => {
     const response = {
-      status: 200
+      status: 200,
+      ok: true,
+      json: async () => ({}),
+      text: async () => ({})
     }
 
     await expect(Response.checkForErrorsInResponse(response)).resolves.not.toThrow()

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const { setCache, getCache } = require('./redis')
-const { checkForErrorsInResponse, convertToResponseBody } = require('./response')
+const Response = require('./response')
 
 let DEFAULT_EXPIRY = 60
 
@@ -12,9 +12,9 @@ const cacheFetch = async (requestOptions, isToken) => {
   const url = requestOptions.url
   delete requestOptions.url
   const response = await fetch(url, requestOptions)
-  await checkForErrorsInResponse(response)
+  await Response.checkForErrorsInResponse(response)
 
-  const data = await convertToResponseBody(response)
+  const data = await Response.convertToResponseBody(response)
   if (isToken) {
     const { exp } = jwt.decode(data.accessToken ?? data)
     DEFAULT_EXPIRY = exp - Math.floor(Date.now() / 1000) - 60
@@ -24,4 +24,4 @@ const cacheFetch = async (requestOptions, isToken) => {
   return data.accessToken ? data : { accessToken: data }
 }
 
-module.exports = cacheFetch
+module.exports = { cacheFetch }

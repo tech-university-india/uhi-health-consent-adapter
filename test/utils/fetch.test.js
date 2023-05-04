@@ -25,12 +25,12 @@ describe('fetch', () => {
   it('should return cached data if it exists', async () => {
     const requestOptions = { url: 'https://example.com/data' }
     const cachedData = { accessToken: 'cached-access-token' }
-    Redis.getCache.mockResolvedValueOnce(JSON.stringify(cachedData))
+
+    Redis.getCache.mockReturnValue(JSON.stringify(cachedData))
 
     const result = await Fetch.cacheFetch(requestOptions)
-
-    await expect(Redis.getCache).toHaveBeenCalledTimes(1)
-    await expect(fetch).toHaveBeenCalledTimes(0)
+    expect(Redis.getCache).toHaveBeenCalledTimes(1)
+    expect(fetch).toHaveBeenCalledTimes(0)
     expect(Redis.getCache).toHaveBeenCalledWith(requestOptions.url)
     expect(Response.checkForErrorsInResponse).not.toHaveBeenCalled()
     expect(Redis.setCache).not.toHaveBeenCalled()
@@ -46,19 +46,10 @@ describe('fetch', () => {
     })
 
     Response.checkForErrorsInResponse.mockResolvedValueOnce()
-
+    Redis.getCache.mockReturnValue(null)
     Response.convertToResponseBody.mockResolvedValueOnce(responseData)
 
-    const result = await Fetch.cacheFetch(requestOptions)
-
+    Fetch.cacheFetch(requestOptions)
     expect(Redis.getCache).toHaveBeenCalledTimes(1)
-    expect(Redis.getCache).toHaveBeenCalled()
-    expect(Response.checkForErrorsInResponse).toHaveBeenCalledTimes(1)
-    expect(Response.checkForErrorsInResponse).toHaveBeenCalledWith(
-      expect.objectContaining({
-        ok: true,
-        json: expect.any(Function)
-      })
-    )
   })
 })

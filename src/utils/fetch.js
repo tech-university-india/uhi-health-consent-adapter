@@ -2,10 +2,10 @@ const jwt = require('jsonwebtoken')
 const { setCache, getCache } = require('./cache')
 const Response = require('./response')
 
-let DEFAULT_EXPIRY = 60
+let DEFAULT_EXPIRY = 60 * 1000
 
 const cacheFetch = async (requestOptions, isToken) => {
-  const cacheData = await getCache(requestOptions.url)
+  const cacheData = getCache(requestOptions.url)
   if (cacheData) {
     return JSON.parse(cacheData)
   }
@@ -17,10 +17,14 @@ const cacheFetch = async (requestOptions, isToken) => {
   const data = await Response.convertToResponseBody(response)
   if (isToken) {
     const { exp } = jwt.decode(data.accessToken ?? data)
-    DEFAULT_EXPIRY = exp - Math.floor(Date.now() / 1000) - 60
+    DEFAULT_EXPIRY = (exp - ((Math.floor(Date.now() / 1000) - 60))) * 1000
   }
 
-  await setCache(requestOptions.url, JSON.stringify(data.accessToken ? data : { accessToken: data }), DEFAULT_EXPIRY)
+  setCache(
+    url,
+    JSON.stringify(data.accessToken ? data : { accessToken: data }),
+    DEFAULT_EXPIRY
+  )
   return data.accessToken ? data : { accessToken: data }
 }
 

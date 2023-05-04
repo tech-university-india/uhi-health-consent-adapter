@@ -1,10 +1,11 @@
 const cacheFetch = require('../utils/fetch')
 
 // Change this to custom aws lambda route while running locally - krke
-const SANDBOX_URL = process.env.SANDBOXURL
 const getToken = async () => {
+  const SANDBOX_URL = process.env.SANDBOX_URL
+
   if (SANDBOX_URL) {
-    const { accessToken } = await cacheFetch(
+    const { accessToken } = await cacheFetch.cacheFetch(
       {
         url: SANDBOX_URL
       },
@@ -12,8 +13,7 @@ const getToken = async () => {
     )
     return accessToken
   }
-
-  const { accessToken } = await cacheFetch(
+  const { accessToken } = await cacheFetch.cacheFetch(
     {
       method: 'POST',
       url: `${process.env.GATEWAY_URL}/v0.5/sessions`,
@@ -27,4 +27,4 @@ const getToken = async () => {
   return accessToken
 }
 
-module.exports = getToken
+module.exports = { getToken }

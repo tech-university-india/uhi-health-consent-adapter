@@ -1,9 +1,9 @@
 const requiredHeaders = require('../config/requiredHeaders')
 const getToken = require('./gateway')
-const { checkForErrorsInResponse, convertToResponseBody } = require('../utils/response')
+const response = require('../utils/response')
 
-const healthId = async (path, method, headers, body) => {
-  const accessToken = await getToken()
+async function healthId (path, method, headers, body) {
+  const accessToken = await getToken.getToken()
   const requestHeaders = {}
   requiredHeaders.forEach((header) => {
     if (headers[header]) {
@@ -11,7 +11,7 @@ const healthId = async (path, method, headers, body) => {
     }
   })
 
-  const response = await fetch(`${process.env.HEALTH_ID_URL}${path}`, {
+  const res = await fetch(`${process.env.HEALTH_ID_URL}${path}`, {
     method,
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -20,11 +20,11 @@ const healthId = async (path, method, headers, body) => {
     body: method === 'GET' ? undefined : JSON.stringify(body)
   })
 
-  await checkForErrorsInResponse(response)
-  const data = await convertToResponseBody(response)
+  await response.checkForErrorsInResponse(res)
+  const data = await response.convertToResponseBody(res)
   return {
     data,
-    status: response.status
+    status: res.status
   }
 }
 module.exports = { healthId }

@@ -13,7 +13,6 @@ const cacheFetch = async (requestOptions, isToken) => {
   delete requestOptions.url
   const response = await fetch(url, requestOptions)
   await Response.checkForErrorsInResponse(response)
-
   const data = await Response.convertToResponseBody(response)
   if (isToken) {
     const { exp } = jwt.decode(data.accessToken ?? data)

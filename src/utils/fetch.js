@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const { setCache, getCache } = require('./redis')
+const { setCache, getCache } = require('./cache')
 const { checkForErrorsInResponse, convertToResponseBody } = require('./response')
 
 let DEFAULT_EXPIRY = 60

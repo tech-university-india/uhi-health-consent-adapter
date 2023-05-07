@@ -7,8 +7,8 @@ const {
   shareProfileSchema,
   addContextsSchema,
   notifySchema,
-  pushNotifySchema
-} = require('../schemas/healthInfo')
+  pushNotifySchema,
+} = require('../schemas/healthInfo');
 
 const pathMap = {
   // move the 3 routes to facility onboarding service once created
@@ -24,7 +24,7 @@ const pathMap = {
   '/gateway/v0.5/links/link/add-contexts': addContextsSchema,
   '/gateway/v0.5/patients/sms/notify2': notifySchema,
 
-  '/gateway/v0.5/health-information/notify': pushNotifySchema
-}
+  '/gateway/v0.5/health-information/notify': pushNotifySchema,
+};
 
-module.exports = pathMap
+module.exports = pathMap;

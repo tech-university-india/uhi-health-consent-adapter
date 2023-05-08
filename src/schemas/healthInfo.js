@@ -1,5 +1,26 @@
 const joi = require('joi')
 
+const purposeCodeEnum = {
+  CAREMGT: 'Care Management',
+  BTG: 'Break the Glass',
+  PUBHLTH: 'Public Health',
+  HPAYMT: 'Healthcare Payment',
+  DSRCH: 'Disease Specific Healthcare Research',
+  PATRQT: ' Self Requested'
+}
+
+const hiTypesEnum = {
+  Prescription: 'Prescription',
+  DiagnosticReport: 'Diagnostic Report',
+  OPConsultation: 'OP Consultation',
+  DischargeSummary: 'Discharge Summary',
+  ImmunizationRecord: 'Immunization Record',
+  HealthDocumentRecord: 'Record artifact',
+  WellnessRecord: 'Wellness Record'
+}
+
+const accessModeEnum = ['QUERY', 'STORE', 'VIEW', 'STREAM']
+
 const hostUrlSchema = joi.object({
   url: joi.string().uri().required()
 })
@@ -118,6 +139,104 @@ const pushNotifySchema = joi.object({
   })
 })
 
+const consentRequestInitSchema = joi.object({
+  requestId: joi.string().required(),
+  timestamp: joi.string().required(),
+  consent: joi.object({
+    purpose: joi.object({
+      text: joi.string().required(),
+      code: joi.string().required().valid(...Object.keys(purposeCodeEnum))
+    }).required(),
+    patient: joi.object({
+      id: joi.string().required()
+    }).required(),
+    hiu: joi.object({
+      id: joi.string().required()
+    }).required(),
+    requester: joi.object({
+      name: joi.string().required(),
+      identifier: joi.object({
+        type: joi.string(),
+        value: joi.string(),
+        system: joi.string()
+      }).required()
+    }).required(),
+    hiTypes: joi.array().items(
+      joi.string().valid(...Object.keys(hiTypesEnum))
+    ).required(),
+    permission: joi.object({
+      accessMode: joi.string().valid(...accessModeEnum).required(),
+      dateRange: joi.object({
+        from: joi.string().required(),
+        to: joi.string().required()
+      }).required(),
+      dataEraseAt: joi.string().required(),
+      frequency: joi.object({
+        unit: joi.string(),
+        value: joi.number(),
+        repeats: joi.number()
+      }).required()
+    }).required()
+  }).required()
+})
+
+const cmRequestSchema = joi.object({
+  requestId: joi.string().required(),
+  timestamp: joi.string().required(),
+  hiRequest: joi.object({
+    consent: joi.object({
+      id: joi.string().required()
+    }).required(),
+    dateRange: joi.object({
+      from: joi.string().required(),
+      to: joi.string().required()
+    }).required(),
+    dataPushUrl: joi.string().uri().required(),
+    keyMaterial: joi.object({
+      cryptoAlg: joi.string().required(),
+      curve: joi.string().required(),
+      dhPublicKey: joi.object({
+        expiry: joi.string().required(),
+        parameters: joi.string().required(),
+        keyValue: joi.string().required()
+      }).required(),
+      nonce: joi.string().required()
+    }).required()
+  }).required()
+})
+
+const fetchConsentSchema = joi.object({
+  requestId: joi.string().required(),
+  timestamp: joi.string().required(),
+  consentId: joi.string().required()
+})
+
+const onNotifyHipSchema = joi.object({
+  requestId: joi.string().required(),
+  timestamp: joi.string().required(),
+  acknowledgement: joi.object({
+    status: joi.string().required(),
+    consentId: joi.string().required()
+  }),
+  resp: joi.object({
+    requestId: joi.string().required()
+  })
+})
+
+const onNotifyHiuSchema = joi.object({
+  requestId: joi.string().required(),
+  timestamp: joi.string().required(),
+  acknowledgement: joi.array().items(
+    joi.object({
+      status: joi.string().required(),
+      consentId: joi.string().required()
+    })
+  ),
+  resp: joi.object({
+    requestId: joi.string().required()
+  })
+})
+
 module.exports = {
   hostUrlSchema,
   registerFacilitiesSchema,
@@ -127,5 +246,10 @@ module.exports = {
   shareProfileSchema,
   addContextsSchema,
   notifySchema,
-  pushNotifySchema
+  pushNotifySchema,
+  consentRequestInitSchema,
+  cmRequestSchema,
+  fetchConsentSchema,
+  onNotifyHipSchema,
+  onNotifyHiuSchema
 }

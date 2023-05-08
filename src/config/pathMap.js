@@ -7,7 +7,12 @@ const {
   shareProfileSchema,
   addContextsSchema,
   notifySchema,
-  pushNotifySchema
+  pushNotifySchema,
+  consentRequestInitSchema,
+  cmRequestSchema,
+  fetchConsentSchema,
+  onNotifyHipSchema,
+  onNotifyHiuSchema
 } = require('../schemas/healthInfo')
 
 const pathMap = {
@@ -24,7 +29,15 @@ const pathMap = {
   '/gateway/v0.5/links/link/add-contexts': addContextsSchema,
   '/gateway/v0.5/patients/sms/notify2': notifySchema,
 
-  '/gateway/v0.5/health-information/notify': pushNotifySchema
+  '/gateway/v0.5/health-information/notify': pushNotifySchema,
+  '/gateway/v0.5/health-information/cm/request': cmRequestSchema,
+
+  '/gateway/v0.5/consent-requests/init': consentRequestInitSchema,
+
+  '/gateway/v0.5/consents/fetch': fetchConsentSchema,
+
+  '/gateway/v0.5/consents/hip/on-notify': onNotifyHipSchema,
+  '/gateway/v0.5/consents/hiu/on-notify': onNotifyHiuSchema
 }
 
 module.exports = pathMap

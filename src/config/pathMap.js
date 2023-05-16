@@ -1,3 +1,5 @@
+const { dataPushPath } = require('../utils/constants')
+
 const {
   hostUrlSchema,
   registerFacilitiesSchema,
@@ -12,7 +14,9 @@ const {
   cmRequestSchema,
   fetchConsentSchema,
   onNotifyHipSchema,
-  onNotifyHiuSchema
+  onNotifyHiuSchema,
+  dataPushSchema,
+  consentRequestStatusSchema
 } = require('../schemas/healthInfo')
 
 const pathMap = {
@@ -37,7 +41,11 @@ const pathMap = {
   '/gateway/v0.5/consents/fetch': fetchConsentSchema,
 
   '/gateway/v0.5/consents/hip/on-notify': onNotifyHipSchema,
-  '/gateway/v0.5/consents/hiu/on-notify': onNotifyHiuSchema
+  '/gateway/v0.5/consents/hiu/on-notify': onNotifyHiuSchema,
+
+  '/v0.5/consent-requests/status': consentRequestStatusSchema
 }
+
+pathMap[dataPushPath] = dataPushSchema
 
 module.exports = pathMap

@@ -237,6 +237,37 @@ const onNotifyHiuSchema = joi.object({
   })
 })
 
+const dataPushSchema = joi.object({
+  dataPushUrl: joi.uri().required(),
+  pageNumber: joi.number().required(),
+  pageCount: joi.number().required(),
+  transactionId: joi.string().required(),
+  entries: joi.array().items(
+    joi.object({
+      content: joi.string().required(),
+      media: joi.string().required(),
+      checksum: joi.string().required(),
+      careContextReference: joi.string().required()
+    })
+  ),
+  keyMaterial: joi.object({
+    cryptoAlg: joi.string().required(),
+    curve: joi.string().required(),
+    nonce: joi.string().required(),
+    dhPublicKey: joi.object({
+      expiry: joi.string().required(),
+      parameters: joi.string().required(),
+      keyValue: joi.string().required()
+    })
+  })
+})
+
+const consentRequestStatusSchema = joi.object({
+  requestId: joi.string().required(),
+  timestamp: joi.string().required(),
+  consentRequestId: joi.string().required()
+})
+
 module.exports = {
   hostUrlSchema,
   registerFacilitiesSchema,
@@ -251,5 +282,7 @@ module.exports = {
   cmRequestSchema,
   fetchConsentSchema,
   onNotifyHipSchema,
-  onNotifyHiuSchema
+  onNotifyHiuSchema,
+  dataPushSchema,
+  consentRequestStatusSchema
 }

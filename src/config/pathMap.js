@@ -12,7 +12,8 @@ const {
   cmRequestSchema,
   fetchConsentSchema,
   onNotifyHipSchema,
-  onNotifyHiuSchema
+  onNotifyHiuSchema,
+  consentRequestStatusSchema
 } = require('../schemas/healthInfo')
 
 const pathMap = {
@@ -37,7 +38,10 @@ const pathMap = {
   '/gateway/v0.5/consents/fetch': fetchConsentSchema,
 
   '/gateway/v0.5/consents/hip/on-notify': onNotifyHipSchema,
-  '/gateway/v0.5/consents/hiu/on-notify': onNotifyHiuSchema
+  '/gateway/v0.5/consents/hiu/on-notify': onNotifyHiuSchema,
+
+  '/v0.5/consent-requests/status': consentRequestStatusSchema,
+  '/v0.5/health-information/cm/on-request': consentRequestStatusSchema
 }
 
 module.exports = pathMap

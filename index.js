@@ -1,16 +1,16 @@
-require('dotenv').config()
-const express = require('express')
-const abdm = require('./src/controllers/abdm')
-const requestValidator = require('./src/middleware/joi')
+require('dotenv').config();
+const express = require('express');
+const abdm = require('./src/controllers/abdm');
+const requestValidator = require('./src/middleware/joi');
 
-const app = express()
+const app = express();
 
-app.use(express.json())
-app.use(express.text())
-app.use(requestValidator)
+app.use(express.json());
+app.use(express.text());
+app.use(requestValidator);
 
-const PORT = process.env.PORT || 9007
+const PORT = process.env.PORT || 9007;
 
-app.use('*', abdm)
+app.use('*', abdm);
 
-app.listen(PORT, () => console.log(`Started on port ${PORT}`))
+app.listen(PORT, () => console.log(`Started on port ${PORT}`));

@@ -1,5 +1,3 @@
-const { dataPushPath } = require('../utils/constants')
-
 const {
   hostUrlSchema,
   registerFacilitiesSchema,
@@ -45,7 +43,5 @@ const pathMap = {
   '/v0.5/consent-requests/status': consentRequestStatusSchema,
   '/v0.5/health-information/cm/on-request': consentRequestStatusSchema
 }
-
-pathMap[dataPushPath] = dataPushSchema
 
 module.exports = pathMap

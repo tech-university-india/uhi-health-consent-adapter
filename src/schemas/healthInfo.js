@@ -237,7 +237,6 @@ const onNotifyHiuSchema = joi.object({
   })
 })
 
-
 const consentRequestStatusSchema = joi.object({
   requestId: joi.string().required(),
   timestamp: joi.string().required(),

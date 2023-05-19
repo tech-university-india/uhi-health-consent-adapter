@@ -1,5 +1,9 @@
 const requiredHeaders = [
-  'x-token', 't-token', 'accept', 'content-type', 'x-cm-id'
-]
+  'x-token',
+  't-token',
+  'accept',
+  'content-type',
+  'x-cm-id',
+];
 
-module.exports = requiredHeaders
+module.exports = requiredHeaders;

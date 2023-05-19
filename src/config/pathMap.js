@@ -1,5 +1,3 @@
-const { dataPushPath } = require('../utils/constants')
-
 const {
   hostUrlSchema,
   registerFacilitiesSchema,
@@ -15,9 +13,8 @@ const {
   fetchConsentSchema,
   onNotifyHipSchema,
   onNotifyHiuSchema,
-  dataPushSchema,
-  consentRequestStatusSchema
-} = require('../schemas/healthInfo')
+  consentRequestStatusSchema,
+} = require('../schemas/healthInfo');
 
 const pathMap = {
   // move the 3 routes to facility onboarding service once created
@@ -43,9 +40,8 @@ const pathMap = {
   '/gateway/v0.5/consents/hip/on-notify': onNotifyHipSchema,
   '/gateway/v0.5/consents/hiu/on-notify': onNotifyHiuSchema,
 
-  '/v0.5/consent-requests/status': consentRequestStatusSchema
-}
+  '/v0.5/consent-requests/status': consentRequestStatusSchema,
+  '/v0.5/health-information/cm/on-request': consentRequestStatusSchema,
+};
 
-pathMap[dataPushPath] = dataPushSchema
-
-module.exports = pathMap
+module.exports = pathMap;

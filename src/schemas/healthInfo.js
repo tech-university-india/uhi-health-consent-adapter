@@ -237,6 +237,12 @@ const onNotifyHiuSchema = joi.object({
   })
 })
 
+const consentRequestStatusSchema = joi.object({
+  requestId: joi.string().required(),
+  timestamp: joi.string().required(),
+  consentRequestId: joi.string().required()
+})
+
 module.exports = {
   hostUrlSchema,
   registerFacilitiesSchema,
@@ -251,5 +257,6 @@ module.exports = {
   cmRequestSchema,
   fetchConsentSchema,
   onNotifyHipSchema,
-  onNotifyHiuSchema
+  onNotifyHiuSchema,
+  consentRequestStatusSchema
 }

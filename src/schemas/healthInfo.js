@@ -28,7 +28,10 @@ const hostUrlSchema = joi.object({
 const registerFacilitiesSchema = joi.array().items(
   joi.object({
     // eslint-disable-next-line
-    id: joi.string().regex(/^[a-zA-Z!@#\s+\$%\^\&*\)\(+=._-]+$/).required(),
+    id: joi
+      .string()
+      .regex(/^[a-zA-Z!@#\s+\$%\^\&*\)\(+=._-]+$/)
+      .required(),
     name: joi.string().required(),
     type: joi.string().required(),
     active: joi.boolean().required(),
@@ -67,9 +70,22 @@ const authConfirmSchema = joi.object({
   requestId: joi.string().required(),
   timestamp: joi.string().required(),
   transactionId: joi.string().required(),
-  credential: joi.object({
-    authCode: joi.string().required(),
-  }),
+  credential: joi.alternatives().try(
+    joi.object({
+      authCode: joi.string().required(),
+    }),
+    joi.object({
+      demographic: joi.object({
+        name: joi.string().required(),
+        gender: joi.string().required(),
+        dateOfBirth: joi.string().required(),
+        identifier: joi.object({
+          type: joi.string().required(),
+          value: joi.string().required(),
+        }),
+      }),
+    })
+  ),
 });
 
 const shareProfileSchema = joi.object({
